@@ -1,6 +1,7 @@
 import subprocess
 import click
 
+
 @click.command()
 def cli():
     """ Start all services """

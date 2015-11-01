@@ -2,7 +2,9 @@ import click
 import os
 import sys
 
-cmd_folder = os.path.abspath(os.path.join(os.path.dirname(__file__), 'commands'))
+cmd_folder = os.path.abspath(os.path.join(os.path.dirname(__file__),
+                             'commands'))
+
 
 class CLI(click.MultiCommand):
     def list_commands(self, ctx):
@@ -18,10 +20,11 @@ class CLI(click.MultiCommand):
             if sys.version_info[0] == 2:
                 name = name.encode('ascii', 'replace')
             mod = __import__('cli.commands.cmd_' + name, None, None, ['cli'])
-        except ImportError as e:
+        except ImportError:
             exit(1)
 
         return mod.cli
+
 
 @click.command(cls=CLI)
 def cli():
