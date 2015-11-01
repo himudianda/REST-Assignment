@@ -8,6 +8,12 @@ cmd_folder = os.path.abspath(os.path.join(os.path.dirname(__file__),
 
 class CLI(click.MultiCommand):
     def list_commands(self, ctx):
+        """
+        List all available commands.
+
+        :param ctx: Click context
+        :return: List of commands
+        """
         commands = []
         for filename in os.listdir(cmd_folder):
             if filename.endswith('.py') and filename.startswith('cmd_'):
@@ -16,6 +22,13 @@ class CLI(click.MultiCommand):
         return commands
 
     def get_command(self, ctx, name):
+        """
+        Get a specific command by looking up the module.
+
+        :param ctx: Click context
+        :param name: Command name
+        :return: Module's cli function
+        """
         try:
             if sys.version_info[0] == 2:
                 name = name.encode('ascii', 'replace')
