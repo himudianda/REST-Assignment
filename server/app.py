@@ -1,6 +1,6 @@
 from flask import Flask
 
-from server.register import blueprints
+from server.register import blueprints, error_templates
 
 
 def create_app():
@@ -17,5 +17,6 @@ def create_app():
 
     # Register
     blueprints(app)
+    error_templates(app)
 
     return app
