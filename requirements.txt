@@ -6,6 +6,9 @@ psycopg2==2.6.1
 Flask-SQLAlchemy==2.0
 alembic==0.7.6
 
+# REST API
+Flask-Restful==0.2.12
+
 # Command line tasks
 click==4.0
 
