@@ -32,15 +32,13 @@ class CommentListAPI(Resource):
                                    location='json')
         super(CommentListAPI, self).__init__()
 
-
     # curl -i -X GET http://localhost:8000/comments
     def get(self):
         comments = Comment.query.all()
         if comments:
-            return {'comments': [ _c.serialize for _c in comments ]}, 200
+            return {'comments': [_c.serialize for _c in comments]}, 200
         else:
             abort(404)
-
 
     # curl -i -X POST -H "Content-Type: application/json" -d '{"topic":"health", "text": "A glass of Red wine isnt that bad"}' http://localhost:8000/comments
     def post(self):
@@ -77,7 +75,6 @@ class CommentAPI(Resource):
             return {'comment': comment.serialize}, 200
         else:
             abort(404)
-
 
     # curl -i -X DELETE http://localhost:8000/comment/4
     def delete(self, id):

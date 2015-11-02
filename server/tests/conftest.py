@@ -67,7 +67,6 @@ def db(app):
     return _db
 
 
-
 # Model fixtures --------------------------------------------------------------
 @pytest.fixture(scope='function')
 def comments(db):

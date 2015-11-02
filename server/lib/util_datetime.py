@@ -9,4 +9,3 @@ def tzware_datetime():
     :return: Datetime
     """
     return datetime.datetime.now(pytz.utc)
-

@@ -1,6 +1,3 @@
-import datetime
-import pytz
-
 from server.blueprints.comment.models import Comment
 
 

@@ -1,5 +1,4 @@
 import random
-from datetime import datetime
 
 import click
 from faker import Faker

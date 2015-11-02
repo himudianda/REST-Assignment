@@ -33,7 +33,6 @@ class ResourceMixin(object):
                            default=tzware_datetime,
                            onupdate=tzware_datetime)
 
-
     def save(self):
         """
         Save a model instance.
