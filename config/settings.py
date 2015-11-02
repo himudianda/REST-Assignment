@@ -1,5 +1,7 @@
+from os import path
 
 APP_NAME = 'rest'
+APP_ROOT = path.join(path.dirname(path.abspath(__file__)), '..')
 
 # App settings, most settings you see here will change in production.
 SECRET_KEY = 'pickabettersecret'
