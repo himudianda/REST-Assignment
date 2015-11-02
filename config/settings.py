@@ -1,5 +1,3 @@
-from os import path
-from datetime import timedelta
 
 APP_NAME = 'rest'
 
@@ -13,4 +11,3 @@ TESTING = False
 db_uri = 'postgresql://rest:bestpassword@localhost:5432/{0}'
 SQLALCHEMY_DATABASE_URI = db_uri.format(APP_NAME)
 SQLALCHEMY_POOL_SIZE = 5
-
