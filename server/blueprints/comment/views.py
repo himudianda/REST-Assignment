@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, abort
+from flask import Blueprint, abort
 from flask.ext.restful import Api, Resource, reqparse
 
 comment = Blueprint('comment', __name__)
@@ -8,7 +8,8 @@ comments = [
     {
         'id': 1,
         'topic': u'Science & Technology',
-        'text': u'Microsoft hololens could go into production beginning next year.'
+        'text': u'Microsoft hololens could go '
+                 'into production beginning next year.'
     },
     {
         'id': 2,
@@ -83,15 +84,3 @@ class CommentAPI(Resource):
 
 api.add_resource(CommentListAPI, '/comments')
 api.add_resource(CommentAPI, '/comment/<int:id>')
-
-#################################
-
-
-
-
-
-
-
-
-
-
