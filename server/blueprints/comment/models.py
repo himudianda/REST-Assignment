@@ -24,3 +24,18 @@ class Comment(ResourceMixin, db.Model):
         # Call Flask-SQLAlchemy's constructor.
         super(Comment, self).__init__(**kwargs)
 
+
+    @property
+    def serialize(self):
+        """
+        Return JSON fields to render the comment.
+
+        :return: dict
+        """
+        params = {
+            'id': self.id,
+            'topic': self.topic,
+            'text': self.text,
+        }
+
+        return params

@@ -1,6 +1,8 @@
 from flask import Blueprint, abort
 from flask.ext.restful import Api, Resource, reqparse
 
+from server.blueprints.comment.models import Comment
+
 comment = Blueprint('comment', __name__)
 api = Api(comment)
 
@@ -30,9 +32,12 @@ class CommentListAPI(Resource):
                                    location='json')
         super(CommentListAPI, self).__init__()
 
+
     # curl -i -X GET http://localhost:8000/comments
     def get(self):
-        return {'comments': comments}, 200
+        comments = Comment.query.all()
+        return {'comments': [ _c.serialize for _c in comments ]}, 200
+
 
     # curl -i -X POST -H "Content-Type: application/json" -d '{"topic":"health", "text": "A glass of Red wine isnt that bad"}' http://localhost:8000/comments
     def post(self):

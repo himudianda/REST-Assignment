@@ -12,6 +12,9 @@ Flask-Restful==0.2.12
 # Command line tasks
 click==4.0
 
+# Generate fake data
+fake-factory==0.5.2
+
 # App server
 gunicorn==19.3.0
 
