@@ -4,6 +4,15 @@ Installation instructions
 Initialize App
 -------------------------------------------
 
+- sudo apt-get update
+- Install node & npm
+    sudo apt-get install -f -y curl python-dev libpq-dev nodejs nodejs-legacy npm
+- Install Docker
+    wget -qO- https://get.docker.com/ | sh
+- Install Docker-compose
+    curl -L https://github.com/docker/compose/releases/download/1.4.2/docker-compose-Linux-x86_64 > /tmp/docker-compose
+    chmod +x /tmp/docker-compose
+    sudo mv /tmp/docker-compose /usr/local/bin
 - Install pip
     curl https://bootstrap.pypa.io/get-pip.py > /tmp/get-pip.py
     sudo python /tmp/get-pip.py
@@ -23,10 +32,13 @@ Run App
 - Clone the repo:
     git clone https://github.com/himudianda/REST-Assignment.git
 - Create new or activate existing virtualenv
-    mkvirtualenv rest #creates a new virtuakenv
-    workon rest # activates existing virtualenv
+    mkvirtualenv server #creates a new virtuakenv
+    workon server # activates existing virtualenv
 - pip install --editable .
 - pip install -r requirements.txt
+- Instantiate docker container (in a new terminal):
+    docker-compose pull
+    docker-compose up
 - run all
 
 

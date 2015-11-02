@@ -1,5 +1,6 @@
 from flask import render_template
 
+from server.extensions import db
 from server.blueprints.page import page
 
 FLASK_BLUEPRINTS = [page]
@@ -17,6 +18,10 @@ def blueprints(app):
         app.register_blueprint(blueprint)
 
     return None
+
+
+def extensions(app):
+    db.init_app(app)
 
 
 def error_templates(app):
