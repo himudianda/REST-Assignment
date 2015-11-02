@@ -42,6 +42,24 @@ Run App
 - run all
 
 
+CLI: Run Tests, Init Fake Data & DB control
+--------------------------------------
+- To run all the Unit Tests:
+    run test
+- To add fake date:
+    run add all
+        OR
+    run add comments
+- List all databases:
+    run db list
+- Initialize DB - drops old DB & creates a new DB:
+    run db init
+- Reset individual DBs
+    run db reset
+- Drop individual DBs
+    run db drop
+
+
 Question
 ^^^^^^^^^^^^^^^^
 
