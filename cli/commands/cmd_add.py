@@ -5,6 +5,7 @@ from faker import Faker
 
 from server.app import create_app
 from server.extensions import db
+from server.blueprints.user.models import User
 from server.blueprints.comment.models import Comment
 
 fake = Faker()
@@ -55,6 +56,38 @@ def cli():
     pass
 
 
+
+@click.command()
+def users():
+    """
+    Create random users.
+    """
+    random_usernames = []
+    data = []
+
+    # Ensure we get about 50 unique random usernames.
+    for i in range(0, 50):
+        random_usernames.append(fake.user_name())
+
+    random_usernames = list(set(random_usernames))
+
+    while True:
+        if len(random_usernames) == 0:
+            break
+
+        username = random_usernames.pop()
+
+        params = {
+            'username': username,
+            'password': User.encrypt_password('password')
+        }
+
+        data.append(params)
+
+    return _bulk_insert(User, data, 'users')
+
+
+
 @click.command()
 def comments():
     """
@@ -82,10 +115,12 @@ def all(ctx):
     :param ctx:
     :return: None
     """
+    ctx.invoke(users)
     ctx.invoke(comments)
 
     return None
 
 
+cli.add_command(users)
 cli.add_command(comments)
 cli.add_command(all)

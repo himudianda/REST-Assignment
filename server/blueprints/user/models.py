@@ -1,5 +1,4 @@
-from server.extensions import db
-
+from server.extensions import db, bcrypt
 from server.lib.util_sqlalchemy import ResourceMixin
 
 class User(ResourceMixin, db.Model):

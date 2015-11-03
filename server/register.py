@@ -7,7 +7,7 @@ from server.blueprints.page import page
 from server.blueprints.user import user
 from server.blueprints.user import user_api
 
-FLASK_BLUEPRINTS = [page, comment]
+FLASK_BLUEPRINTS = [page, comment, user]
 CUSTOM_ERROR_PAGES = [404, 500, 502]
 
 
