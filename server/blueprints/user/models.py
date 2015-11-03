@@ -1,7 +1,8 @@
 from server.extensions import db
 
+from server.lib.util_sqlalchemy import ResourceMixin
 
-class User(db.Model):
+class User(ResourceMixin, db.Model):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -27,3 +28,17 @@ class User(db.Model):
             return bcrypt.generate_password_hash(plaintext_password, 8)
 
         return None
+
+    @property
+    def serialize(self):
+        """
+        Return JSON fields to render the user.
+
+        :return: dict
+        """
+        params = {
+            'id': self.id,
+            'username': self.username
+        }
+
+        return params

@@ -1,9 +1,11 @@
 from flask import render_template
 
 from server.extensions import db
+from server.blueprints.comment import comment
 from server.blueprints.comment import comment_api
 from server.blueprints.page import page
-from server.blueprints.comment import comment
+from server.blueprints.user import user
+from server.blueprints.user import user_api
 
 FLASK_BLUEPRINTS = [page, comment]
 CUSTOM_ERROR_PAGES = [404, 500, 502]
@@ -25,6 +27,7 @@ def blueprints(app):
 def extensions(app):
     db.init_app(app)
     comment_api.init_app(app)
+    user_api.init_app(app)
 
 
 def error_templates(app):
