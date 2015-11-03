@@ -50,6 +50,8 @@ CLI: Run Tests, Init Fake Data & DB control
     run add all
         OR
     run add comments
+        OR
+    run add users
 - List all databases:
     run db list
 - Initialize DB - drops old DB & creates a new DB:
