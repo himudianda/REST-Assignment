@@ -1,25 +1,10 @@
-from flask import Blueprint, abort
+from flask import Blueprint, abort, request
 from flask.ext.restful import Api, Resource, reqparse
 
 from server.blueprints.comment.models import Comment
 
 comment = Blueprint('comment', __name__)
 api = Api(comment)
-
-comments = [
-    {
-        'id': 1,
-        'topic': u'Science & Technology',
-        'text': u'Microsoft hololens could go '
-                 'into production beginning next year.'
-    },
-    {
-        'id': 2,
-        'topic': u'Politics',
-        'text': u'Is Jeb Bush losing the republican primary ?'
-    }
-]
-
 
 class CommentListAPI(Resource):
 
@@ -32,9 +17,11 @@ class CommentListAPI(Resource):
                                    location='json')
         super(CommentListAPI, self).__init__()
 
-    # curl -i -X GET http://localhost:8000/comments
+    # curl -i -X GET http://localhost:8000/comments?id=4&topic=politics
     def get(self):
-        comments = Comment.query.all()
+        topic = request.args.get('topic', None)
+        _id = request.args.get('id', None)
+        comments = Comment.find(_id, topic)
         if comments:
             return {'comments': [_c.serialize for _c in comments]}, 200
         else:

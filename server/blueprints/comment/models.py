@@ -38,3 +38,26 @@ class Comment(ResourceMixin, db.Model):
         }
 
         return params
+
+    @classmethod
+    def find(cls, id=None, topic=None):
+        """
+        Find comments.
+
+        :param id: Comment id to find
+        :type id: str
+        :param topic: Comment topic to find
+        :type topic: str
+        :return: Comments
+        """
+        comments = Comment.query
+        if not topic and not id:
+            return comments.all()
+
+        if topic:
+            formatted_topic = topic.lower()
+            comments = comments.filter(Comment.topic == formatted_topic)
+        if id:
+            comments = comments.filter(Comment.id == id)
+
+        return comments
