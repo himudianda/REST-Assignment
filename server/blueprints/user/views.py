@@ -21,14 +21,14 @@ class UserListAPI(Resource):
     # curl -i -X GET http://localhost:8000/users
     def get(self):
         users = User.query.all()
-        return {'users': [_u.serialize for _u in users]}, 200
+        return {'users': [_u.serialize() for _u in users]}, 200
 
     # curl -i -X POST -H "Content-Type: application/json" -d '{"username":"himudianda", "password": "ab12yz34"}' http://localhost:8000/users
     def post(self):
         args = self.reqparse.parse_args()
         user = User(username=args['username'], password=args['password'])
         user.save()
-        return {'user': user.serialize}, 201
+        return {'user': user.serialize()}, 201
 
 
 class UserAPI(Resource):
@@ -43,7 +43,7 @@ class UserAPI(Resource):
     def get(self, id):
         user = User.query.get(id)
         if user:
-            return {'user': user.serialize}, 200
+            return {'user': user.serialize()}, 200
         else:
             abort(404)
 
@@ -55,7 +55,7 @@ class UserAPI(Resource):
             user.username = args['username']
             user.password = args['password']
             user.save()
-            return {'user': user.serialize}, 200
+            return {'user': user.serialize()}, 200
         else:
             abort(404)
 

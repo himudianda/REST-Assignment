@@ -17,22 +17,23 @@ class CommentListAPI(Resource):
                                    location='json')
         super(CommentListAPI, self).__init__()
 
-    # curl -i -X GET http://localhost:8000/comments?id=4&topic=politics
+    # curl -i -X GET "http://localhost:8000/comments?id=4&topic=politics"
     def get(self):
         topic = request.args.get('topic', None)
         _id = request.args.get('id', None)
-        comments = Comment.find(_id, topic)
+        username = request.args.get('username', None)
+        comments = Comment.find(_id, username, topic)
         if comments:
-            return {'comments': [_c.serialize for _c in comments]}, 200
+            return {'comments': [_c.serialize() for _c in comments]}, 200
         else:
             abort(404)
 
-    # curl -i -X POST -H "Content-Type: application/json" -d '{"topic":"health", "text": "A glass of Red wine isnt that bad"}' http://localhost:8000/comments
+    # curl -i -X POST -H "Content-Type: application/json" -d '{"topic":"health", "text": "A glass of Red wine isnt that bad"}' "http://localhost:8000/comments"
     def post(self):
         args = self.reqparse.parse_args()
         comment = Comment(topic=args['topic'], text=args['text'])
         comment.save()
-        return {'comment': comment.serialize}, 201
+        return {'comment': comment.serialize()}, 201
 
 
 class CommentAPI(Resource):
@@ -47,7 +48,7 @@ class CommentAPI(Resource):
     def get(self, id):
         comment = Comment.query.get(id)
         if comment:
-            return {'comment': comment.serialize}, 200
+            return {'comment': comment.serialize()}, 200
         else:
             abort(404)
 
@@ -59,7 +60,7 @@ class CommentAPI(Resource):
             comment.topic = args['topic']
             comment.text = args['text']
             comment.save()
-            return {'comment': comment.serialize}, 200
+            return {'comment': comment.serialize()}, 200
         else:
             abort(404)
 

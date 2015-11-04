@@ -1,5 +1,7 @@
 from server.extensions import db, bcrypt
 from server.lib.util_sqlalchemy import ResourceMixin
+from server.blueprints.comment.models import Comment
+
 
 class User(ResourceMixin, db.Model):
     __tablename__ = 'users'
@@ -7,6 +9,7 @@ class User(ResourceMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(24), unique=True, index=True)
     password = db.Column(db.String(128), nullable=False, server_default='')
+    comments = db.relationship(Comment, backref='users', passive_deletes=True)
 
 
     def __init__(self, **kwargs):
@@ -28,7 +31,6 @@ class User(ResourceMixin, db.Model):
 
         return None
 
-    @property
     def serialize(self):
         """
         Return JSON fields to render the user.
@@ -37,7 +39,8 @@ class User(ResourceMixin, db.Model):
         """
         params = {
             'id': self.id,
-            'username': self.username
+            'username': self.username,
+            'comments': [ _c.serialize(lite=True) for _c in Comment.query.filter(Comment.user_id == self.id) ]
         }
 
         return params

@@ -94,14 +94,18 @@ def comments():
     Create random comments.
     """
     data = []
+    users = db.session.query(User).all()
 
-    for i in range(0, 50):
-        params = {
-            'topic': random.choice(Comment.TOPICS.keys()),
-            'text': fake.text(max_nb_chars=255),
-        }
+    for user in users:
+        for i in range(0, random.randint(1, 12)):
 
-        data.append(params)
+            params = {
+                'topic': random.choice(Comment.TOPICS.keys()),
+                'text': fake.text(max_nb_chars=255),
+                'user_id': user.id
+            }
+
+            data.append(params)
 
     return _bulk_insert(Comment, data, 'comments')
 
