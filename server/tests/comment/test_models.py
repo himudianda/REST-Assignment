@@ -9,7 +9,7 @@ class TestComment(object):
             'text': "Random Health Doc"
         }
         comment = Comment(**params)
-        _comment = comment.serialize
+        _comment = comment.serialize()
         assert comment.id == _comment.get('id')
         assert comment.topic == _comment.get("topic")
         assert comment.text == _comment.get("text")
