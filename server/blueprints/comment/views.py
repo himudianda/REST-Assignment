@@ -40,6 +40,7 @@ class CommentAPI(Resource):
 
     def __init__(self):
         self.reqparse = reqparse.RequestParser()
+        self.reqparse.add_argument('version', type=int, location='json')
         self.reqparse.add_argument('topic', type=str, location='json')
         self.reqparse.add_argument('text', type=str, location='json')
         super(CommentAPI, self).__init__()
@@ -57,8 +58,13 @@ class CommentAPI(Resource):
         comment = Comment.query.get(id)
         if comment:
             args = self.reqparse.parse_args()
+            if not args['version']:
+                return {'error_message': "comment version is required but not provided."}, 400
+            elif args['version'] != comment.version:
+                return {'error_message': "comment version does not match the version on server."}, 409
             comment.topic = args['topic']
             comment.text = args['text']
+            comment.version += 1
             comment.save()
             return {'comment': comment.serialize()}, 200
         else:

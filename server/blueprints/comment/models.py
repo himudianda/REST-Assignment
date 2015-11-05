@@ -15,6 +15,7 @@ class Comment(ResourceMixin, db.Model):
     ])
 
     id = db.Column(db.Integer, primary_key=True)
+    version = db.Column(db.Integer, server_default='1')
     topic = db.Column(db.Enum(*TOPICS.keys(), name='topic_tags'),
                       index=True, nullable=False, server_default='tech')
     text = db.Column(db.String(255), index=True, nullable=False,
@@ -28,6 +29,7 @@ class Comment(ResourceMixin, db.Model):
         # Call Flask-SQLAlchemy's constructor.
         super(Comment, self).__init__(**kwargs)
 
+
     def serialize(self, lite=False):
         """
         Return JSON fields to render the comment.
@@ -39,6 +41,7 @@ class Comment(ResourceMixin, db.Model):
         username = user.username if user else ""
         params = {
             'id': self.id,
+            'version': self.version,
             'topic': self.topic,
             'text': self.text,
             'created_by': username
