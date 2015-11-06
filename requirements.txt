@@ -10,8 +10,9 @@ alembic==0.7.6
 Flask-Restful==0.2.12
 
 # Authentication and authorization
-Flask-Bcrypt==0.6.2
+Flask-HTTPAuth==2.7.0
 itsdangerous==0.24
+passlib==1.6.5
 
 # Command line tasks
 click==4.0

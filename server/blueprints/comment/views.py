@@ -1,10 +1,12 @@
-from flask import Blueprint, abort, request
+from flask import Blueprint, abort, request, g as flask_g
 from flask.ext.restful import Api, Resource, reqparse
 
+from server.extensions import auth
 from server.blueprints.comment.models import Comment
 
 comment = Blueprint('comment', __name__)
 api = Api(comment)
+
 
 class CommentListAPI(Resource):
 
@@ -17,7 +19,8 @@ class CommentListAPI(Resource):
                                    location='json')
         super(CommentListAPI, self).__init__()
 
-    # curl -i -X GET "http://localhost:8000/comments?id=4&topic=politics"
+    # curl -i -X GET -u himudianda "http://localhost:8000/comments?id=4&topic=politics"
+    @auth.login_required
     def get(self):
         topic = request.args.get('topic', None)
         _id = request.args.get('id', None)
@@ -28,10 +31,12 @@ class CommentListAPI(Resource):
         else:
             abort(404)
 
-    # curl -i -X POST -H "Content-Type: application/json" -d '{"topic":"health", "text": "A glass of Red wine isnt that bad"}' "http://localhost:8000/comments"
+    # curl -i -X POST -H "Content-Type: application/json" -u himudianda -d '{"topic":"health", "text": "A glass of Red wine isnt that bad"}' "http://localhost:8000/comments"
+    @auth.login_required
     def post(self):
         args = self.reqparse.parse_args()
         comment = Comment(topic=args['topic'], text=args['text'])
+        comment.user_id=flask_g.user.id
         comment.save()
         return {'comment': comment.serialize()}, 201
 
@@ -45,7 +50,8 @@ class CommentAPI(Resource):
         self.reqparse.add_argument('text', type=str, location='json')
         super(CommentAPI, self).__init__()
 
-    # curl -i -X GET http://localhost:8000/comment/1
+    # curl -i -X GET -u himudianda "http://localhost:8000/comment/1"
+    @auth.login_required
     def get(self, id):
         comment = Comment.query.get(id)
         if comment:
@@ -53,7 +59,8 @@ class CommentAPI(Resource):
         else:
             abort(404)
 
-    # curl -i -X PUT -H "Content-Type: application/json" -d '{"topic":"entertainment", "text": "Steve jobs movie opened with a 2 star rating."}' http://localhost:8000/comment/4
+    # curl -i -X PUT -H "Content-Type: application/json" -u himudianda -d '{"version":1, "topic":"entertainment", "text": "Steve jobs movie opened with a 2 star rating."}' http://localhost:8000/comment/1
+    @auth.login_required
     def put(self, id):
         comment = Comment.query.get(id)
         if comment:
@@ -65,12 +72,14 @@ class CommentAPI(Resource):
             comment.topic = args['topic']
             comment.text = args['text']
             comment.version += 1
+            comment.user_id = flask_g.user.id
             comment.save()
             return {'comment': comment.serialize()}, 200
         else:
             abort(404)
 
-    # curl -i -X DELETE http://localhost:8000/comment/4
+    # curl -i -X DELETE -u himudianda http://localhost:8000/comment/4
+    @auth.login_required
     def delete(self, id):
         comment = Comment.query.get(id)
         if comment:
