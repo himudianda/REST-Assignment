@@ -8,6 +8,8 @@ SECRET_KEY = 'pickabettersecret'
 DEBUG = True
 TESTING = False
 
+SERVER_NAME = 'localhost:8000'
+
 # Database settings,
 # The username and password must match what's in docker-compose.yml for dev.
 db_uri = 'postgresql://rest:bestpassword@localhost:5432/{0}'

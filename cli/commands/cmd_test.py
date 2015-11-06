@@ -4,7 +4,8 @@ import click
 from config import settings
 
 
-TESTS_PATH = '{0}/{1}'.format(settings.APP_ROOT, '/server/tests')
+APP_ROOT = settings.APP_ROOT
+TESTS_PATH = '{0}/{1}'.format(APP_ROOT, '/server/tests')
 
 
 @click.command()
@@ -15,8 +16,5 @@ def cli(path):
 
     :return: Subprocess call result
     """
-    print TESTS_PATH
     cmd = 'py.test {0}'.format(path)
-
-    print cmd
     return subprocess.call(cmd, shell=True)

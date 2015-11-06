@@ -1,10 +1,14 @@
 import pytest
+import random
+from faker import Faker
 
 from config import settings
 from server.app import create_app
 from server.extensions import db as _db
+from server.blueprints.user.models import User
 from server.blueprints.comment.models import Comment
 
+fake = Faker()
 
 # App and database fixtures ---------------------------------------------------
 @pytest.yield_fixture(scope='session')
@@ -18,7 +22,6 @@ def app():
     params = {
         'DEBUG': False,
         'TESTING': True,
-        'WTF_CSRF_ENABLED': False,
         'SQLALCHEMY_DATABASE_URI': db_uri
     }
 
@@ -43,7 +46,6 @@ def client(app):
     """
     yield app.test_client()
 
-
 @pytest.fixture(scope='session')
 def db(app):
     """
@@ -55,46 +57,40 @@ def db(app):
     _db.drop_all()
     _db.create_all()
 
-    params = {
-        'topic': 'health',
-        'text': 'Some health test comment'
-    }
-
-    seed_comment = Comment(**params)
-    _db.session.add(seed_comment)
-    _db.session.commit()
-
     return _db
 
 
 # Model fixtures --------------------------------------------------------------
 @pytest.fixture(scope='function')
-def comments(db):
-    """
-    Create comment fixtures. They reset per test.
+def test_data(db):
+    db.session.query(User).delete()
 
-    :param db: Pytest fixture
-    :return: SQLAlchemy database session
-    """
-    db.session.query(Comment).delete()
-
-    comments = [
+    users = [
         {
-            'topic': 'health',
-            'text': "Red wine may be good for health."
+            'username': 'admin',
+            'password': 'password'
         },
         {
-            'topic': 'politics',
-            'text': "Could Jeb Bush lose the republican primary ?"
-        },
-        {
-            'topic': 'tech',
-            'text': 'Exablox - the next big storage startup'
+            'username': fake.user_name(),
+            'password': 'password'
         }
     ]
 
-    for comment in comments:
-        db.session.add(Comment(**comment))
+    for user in users:
+        db.session.add(User(**user))
+
+    db.session.commit()
+
+    _users = User.query.all()
+    for _u in _users:
+        params = {
+            'user_id': _u.id,
+            'topic': random.choice(Comment.TOPICS.keys()),
+            'text': fake.text(max_nb_chars=255)
+        }
+
+        comment = Comment(**params)
+        db.session.add(comment)
 
     db.session.commit()
 
