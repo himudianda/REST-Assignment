@@ -1,14 +1,11 @@
 import pytest
 import random
-from faker import Faker
 
 from config import settings
 from server.app import create_app
 from server.extensions import db as _db
 from server.blueprints.user.models import User
 from server.blueprints.comment.models import Comment
-
-fake = Faker()
 
 # App and database fixtures ---------------------------------------------------
 @pytest.yield_fixture(scope='session')
@@ -71,7 +68,7 @@ def test_data(db):
             'password': 'password'
         },
         {
-            'username': fake.user_name(),
+            'username': 'user1',
             'password': 'password'
         }
     ]
@@ -86,7 +83,7 @@ def test_data(db):
         params = {
             'user_id': _u.id,
             'topic': random.choice(Comment.TOPICS.keys()),
-            'text': fake.text(max_nb_chars=255)
+            'text': "A fake comment."
         }
 
         comment = Comment(**params)
