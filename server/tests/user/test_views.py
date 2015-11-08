@@ -8,5 +8,5 @@ from server.blueprints.user.models import User
 class TestUser(ViewTestMixin):
 
     def test_get_users(self):
-        response = self.client.get('http://localhost:8000/users')
+        response = self.client.get('http://localhost:8000/users', headers=self.headers)
         assert response.status_code == 200
