@@ -12,7 +12,6 @@ class User(ResourceMixin, db.Model):
     password = db.Column(db.String(128), nullable=False, server_default='')
     comments = db.relationship(Comment, backref='users', passive_deletes=True)
 
-
     def __init__(self, **kwargs):
         # Call Flask-SQLAlchemy's constructor.
         super(User, self).__init__(**kwargs)
@@ -43,7 +42,7 @@ class User(ResourceMixin, db.Model):
         params = {
             'id': self.id,
             'username': self.username,
-            'comments': [ _c.serialize(lite=True) for _c in Comment.query.filter(Comment.user_id == self.id) ]
+            'comments': [_c.serialize(lite=True) for _c in Comment.query.filter(Comment.user_id == self.id)]
         }
 
         return params

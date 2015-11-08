@@ -36,7 +36,7 @@ class CommentListAPI(Resource):
     def post(self):
         args = self.reqparse.parse_args()
         comment = Comment(topic=args['topic'], text=args['text'])
-        comment.user_id=flask_g.user.id
+        comment.user_id = flask_g.user.id
         comment.save()
         return {'comment': comment.serialize()}, 201
 

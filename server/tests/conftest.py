@@ -7,6 +7,7 @@ from server.extensions import db as _db
 from server.blueprints.user.models import User
 from server.blueprints.comment.models import Comment
 
+
 # App and database fixtures ---------------------------------------------------
 @pytest.yield_fixture(scope='session')
 def app():
@@ -42,6 +43,7 @@ def client(app):
     :return: Flask app client
     """
     yield app.test_client()
+
 
 @pytest.fixture(scope='session')
 def db(app):

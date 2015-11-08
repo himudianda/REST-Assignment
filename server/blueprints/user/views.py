@@ -1,4 +1,4 @@
-from flask import Blueprint, abort, request, g as flask_g
+from flask import Blueprint, abort, g as flask_g
 from flask.ext.restful import Api, Resource, reqparse
 from sqlalchemy.exc import IntegrityError
 
@@ -11,7 +11,7 @@ api = Api(user)
 
 @auth.verify_password
 def verify_password(username, password):
-    user = User.query.filter_by(username = username).first()
+    user = User.query.filter_by(username=username).first()
     if not user or not user.verify_password(password):
         return False
     flask_g.user = user

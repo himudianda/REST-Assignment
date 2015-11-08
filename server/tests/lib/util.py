@@ -8,7 +8,6 @@ class ViewTestMixin(object):
     def set_common_fixtures(self, client):
         self.client = client
 
-
     @pytest.fixture(autouse=True)
     def set_auth_headers(self, client):
         self.headers = {

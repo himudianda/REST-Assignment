@@ -1,6 +1,4 @@
 from server.blueprints.user.models import User
-from server.blueprints.comment.models import Comment
-
 
 
 class TestUser(object):
@@ -18,4 +16,4 @@ class TestUser(object):
                 assert _comment.get('version') == comment.version
                 assert _comment.get('topic') == comment.topic
                 assert _comment.get('text') == comment.text
-                assert _comment.get('created_by', None) == None
+                assert _comment.get('created_by', None) is None

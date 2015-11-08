@@ -1,9 +1,7 @@
-from flask import url_for
 from json import loads
 
 from server.tests.lib.util import ViewTestMixin
 from server.tests.lib.assertions import assert_status_with_message
-from server.blueprints.user.models import User
 from server.blueprints.comment.models import Comment
 
 

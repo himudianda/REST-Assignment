@@ -29,7 +29,6 @@ class Comment(ResourceMixin, db.Model):
         # Call Flask-SQLAlchemy's constructor.
         super(Comment, self).__init__(**kwargs)
 
-
     def serialize(self, lite=False):
         """
         Return JSON fields to render the comment.
